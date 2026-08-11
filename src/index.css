@@ -1,0 +1,1826 @@
+/* ==========================================
+   1. Base & Reset
+   ========================================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background-color: #f4f6f8;
+  color: #1e293b;
+  min-height: 100vh;
+  display: flex;
+  overflow: hidden;
+}
+
+#root {
+  display: flex;
+  width: 100%;
+  height: 100vh;
+}
+
+/* ==========================================
+   2. Main Layout
+   ========================================== */
+.main-layout {
+  display: flex;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.content {
+  flex: 1;
+  height: 100%;
+  overflow-y: auto;
+  background-color: #f7fafc;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Scrollbars */
+.content::-webkit-scrollbar,
+.left-main-col::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.content::-webkit-scrollbar-track,
+.left-main-col::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.content::-webkit-scrollbar-thumb,
+.left-main-col::-webkit-scrollbar-thumb {
+  background: #cbd5e0;
+  border-radius: 4px;
+}
+
+.content::-webkit-scrollbar-thumb:hover,
+.left-main-col::-webkit-scrollbar-thumb:hover {
+  background: #a0aec0;
+}
+
+/* ==========================================
+   3. Sidebar (Dark Navy Theme)
+   ========================================== */
+.sidebar {
+  width: 240px;
+  background: #03142f;
+  color: #a0aec0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-right: 1px solid #0f2343;
+  padding: 24px 0;
+  flex-shrink: 0;
+  height: 100%;
+}
+
+.sidebar-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 24px 24px 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.logo-icon-container {
+  width: 32px;
+  height: 32px;
+  background: linear-gradient(135deg, #1890ff, #096dd9);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 16px;
+}
+
+.logo-text-quad {
+  font-size: 16px;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: 1.5px;
+}
+
+.nav-items-container {
+  flex: 1;
+  padding: 24px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s ease-in-out;
+  color: #a0aec0;
+}
+
+.nav-item:hover {
+  background: rgba(255, 255, 255, 0.04);
+  color: #fff;
+}
+
+.nav-item.active {
+  background: #1890ff;
+  color: #fff;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(24, 144, 255, 0.25);
+}
+
+.nav-item i {
+  width: 20px;
+  text-align: center;
+  font-size: 16px;
+}
+
+.sidebar-footer {
+  padding: 16px 24px 0 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.footer-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #718096;
+}
+
+.footer-time {
+  font-size: 12px;
+  color: #cbd5e1;
+  font-weight: 500;
+  margin-top: 4px;
+}
+
+/* ==========================================
+   4. Panels & Headers
+   ========================================== */
+.panel-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 24px;
+  gap: 20px;
+}
+
+.panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #e2e8f0;
+  padding-bottom: 16px;
+}
+
+.panel-header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.panel-header-icon {
+  font-size: 22px;
+}
+
+.panel-header h2 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.live-status-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #f0fdf4;
+  color: #16a34a;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  font-size: 12px;
+  font-weight: 600;
+  border: 1px solid #bbf7d0;
+}
+
+.live-status-dot {
+  width: 8px;
+  height: 8px;
+  background: #16a34a;
+  border-radius: 50%;
+  animation: pulse-green 2s infinite;
+}
+
+@keyframes pulse-green {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.85); }
+}
+
+.panel-header-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 13px;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.panel-header-right i {
+  color: #94a3b8;
+}
+
+.panel-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* ==========================================
+   5. Cards & General Layouts
+   ========================================== */
+.card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.03);
+  border: 1px solid #edf2f7;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.card-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #1a73e8;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 16px;
+}
+
+/* Multi-Column Grid Layouts */
+.two-columns-layout {
+  display: flex;
+  gap: 20px;
+  flex: 1;
+}
+
+.left-main-col {
+  flex: 3;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.right-sidebar-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Dashboard Specific Grids */
+.dashboard-grid-3col {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 20px;
+}
+
+.dashboard-flex-col {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Parameter Grid (Water Quality) */
+.parameter-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.param-card {
+  background: #fff;
+  border-radius: 10px;
+  padding: 16px;
+  border: 1px solid #e2e8f0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 12px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+}
+
+.param-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.param-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: #64748b;
+}
+
+.param-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+}
+
+.param-card-body {
+  display: flex;
+  align-items: baseline;
+}
+
+.param-value {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.param-unit {
+  font-size: 13px;
+  color: #94a3b8;
+  font-weight: 500;
+  margin-left: 4px;
+}
+
+.param-card-footer {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  border-top: 1px solid #f1f5f9;
+  padding-top: 8px;
+}
+
+.param-status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+
+.param-status-dot.good-text,
+.param-status-text.good-text {
+  color: #16a34a;
+  background-color: #16a34a;
+}
+
+/* Performance Grid (Performance tab) */
+.performance-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.performance-card {
+  padding: 16px;
+}
+
+.perf-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.perf-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #64748b;
+}
+
+.perf-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+}
+
+.perf-card-body {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.perf-value {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.perf-status-badge {
+  font-size: 11px;
+  font-weight: 600;
+  color: #16a34a;
+  background: #f0fdf4;
+  padding: 2px 8px;
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.status-dot-green {
+  width: 6px;
+  height: 6px;
+  background-color: #16a34a;
+  border-radius: 50%;
+}
+
+/* ==========================================
+   6. Custom SVG Charts & Graphics
+   ========================================== */
+.chart-card {
+  flex: 1.5;
+}
+
+.chart-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.chart-controls {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.chart-legends {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.legend-line {
+  width: 16px;
+  height: 3px;
+  border-radius: 2px;
+}
+
+.legend-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.efficiency-legend, .line-ph { background-color: #2ecc71; }
+.recovery-legend, .line-tds { background-color: #3498db; }
+.line-turb { background-color: #9b59b6; }
+.line-cond { background-color: #e67e22; }
+
+.svg-chart-container {
+  width: 100%;
+  height: 220px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.line-chart-svg, .bar-chart-svg {
+  flex: 1;
+  overflow: visible;
+}
+
+.chart-axis-label {
+  font-size: 9px;
+  fill: #94a3b8;
+  font-weight: 500;
+  text-anchor: end;
+}
+
+.chart-x-labels-row {
+  display: flex;
+  justify-content: space-between;
+  padding-left: 50px;
+  padding-right: 50px;
+  margin-top: 10px;
+}
+
+.x-label-item {
+  font-size: 10px;
+  color: #94a3b8;
+  font-weight: 600;
+  text-align: center;
+}
+
+.chart-bar {
+  transition: height 0.4s ease, y 0.4s ease;
+  cursor: pointer;
+}
+
+.chart-bar:hover {
+  fill: #27ae60;
+  filter: brightness(0.95);
+}
+
+/* Water Quality Index Dial */
+.wqi-dial-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 16px 0;
+}
+
+.wqi-svg-wrapper {
+  position: relative;
+  width: 160px;
+  height: 160px;
+}
+
+.wqi-score-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.wqi-score {
+  font-size: 38px;
+  font-weight: 800;
+  color: #1e293b;
+  line-height: 1;
+}
+
+.wqi-grade {
+  font-size: 14px;
+  font-weight: 700;
+  color: #16a34a;
+  margin-top: 2px;
+}
+
+.wqi-label {
+  font-size: 10px;
+  color: #94a3b8;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.wqi-summary {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.wqi-summary h4 {
+  font-size: 12px;
+  font-weight: 700;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.wqi-status-box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.success-bg {
+  background: #f0fdf4;
+  border: 1px solid #dcfce7;
+}
+
+.success-text {
+  color: #16a34a;
+}
+
+.wqi-details {
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+/* Donut Chart Distribution */
+.donut-chart-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 12px 0;
+}
+
+.donut-svg {
+  overflow: visible;
+}
+
+.donut-center-val {
+  font-size: 14px;
+  font-weight: 800;
+  fill: #1e293b;
+}
+
+.donut-center-unit {
+  font-size: 7px;
+  font-weight: 600;
+  fill: #94a3b8;
+  text-transform: uppercase;
+}
+
+.donut-legend {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.donut-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+}
+
+.legend-name {
+  color: #64748b;
+  min-width: 80px;
+}
+
+.legend-pct {
+  color: #1e293b;
+  text-align: right;
+}
+
+/* ==========================================
+   7. Tables & Data Styles
+   ========================================== */
+.custom-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.custom-table th {
+  padding: 10px 14px;
+  border-bottom: 2px solid #edf2f7;
+  color: #4a5568;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.custom-table td {
+  padding: 12px 14px;
+  border-bottom: 1px solid #edf2f7;
+  font-size: 13px;
+  color: #2d3748;
+}
+
+.custom-table tr:last-child td {
+  border-bottom: none;
+}
+
+/* Status Badges in Tables */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 8px;
+  border-radius: 9999px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.status-good {
+  background: #f0fdf4;
+  color: #16a34a;
+}
+
+.status-badge-dot {
+  width: 5px;
+  height: 5px;
+  background-color: currentColor;
+  border-radius: 50%;
+}
+
+.sparkline {
+  overflow: visible;
+}
+
+/* Table Inline Progress Bars */
+.table-bar-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.table-progress-bar {
+  flex: 1;
+  height: 6px;
+  background-color: #edf2f7;
+  border-radius: 3px;
+  overflow: hidden;
+  min-width: 60px;
+}
+
+.table-progress-fill {
+  height: 100%;
+  border-radius: 3px;
+}
+
+/* ==========================================
+   8. Form Controls & Settings Toggles
+   ========================================== */
+.form-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-group-row-2col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.form-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #64748b;
+}
+
+.form-input, .form-select, .custom-select {
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid #cbd5e1;
+  font-size: 13px;
+  color: #1e293b;
+  outline: none;
+  background-color: #fff;
+  transition: border-color 0.15s ease-in-out;
+}
+
+.form-input:focus, .form-select:focus, .custom-select:focus {
+  border-color: #1890ff;
+}
+
+.custom-select {
+  padding: 4px 10px;
+}
+
+.version-disabled {
+  background-color: #f1f5f9;
+  color: #94a3b8;
+  cursor: not-allowed;
+}
+
+/* Toggle Switch Slider Styling */
+.toggles-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+}
+
+.toggle-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 0;
+}
+
+.toggle-label {
+  font-size: 13px;
+  color: #1e293b;
+}
+
+/* Switch UI */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 44px;
+  height: 24px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #cbd5e1;
+  transition: .2s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: .2s;
+}
+
+input:checked + .slider {
+  background-color: #1890ff;
+}
+
+input:checked + .slider:before {
+  transform: translateX(20px);
+}
+
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+/* ==========================================
+   9. Buttons & General UI Elements
+   ========================================== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: background-color 0.15s ease-in-out, transform 0.1s ease;
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+.btn-primary {
+  background-color: #1890ff;
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background-color: #096dd9;
+}
+
+.btn-export {
+  align-self: flex-end;
+  height: 38px;
+}
+
+/* Filter controls row */
+.filter-group-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 20px;
+}
+
+.filter-input-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* Settings Tabs selectors */
+.settings-tabs-row {
+  display: flex;
+  gap: 24px;
+  border-bottom: 2px solid #edf2f7;
+  padding-bottom: 2px;
+}
+
+.settings-tab-btn {
+  background: none;
+  border: none;
+  padding: 8px 0 12px 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: #64748b;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all 0.15s ease-in-out;
+}
+
+.settings-tab-btn:hover {
+  color: #1e293b;
+}
+
+.settings-tab-btn.active {
+  color: #1890ff;
+  border-bottom-color: #1890ff;
+}
+
+.settings-actions-footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+
+.btn-save {
+  padding: 10px 24px;
+}
+
+/* ==========================================
+   10. Alerts Banner specific layout
+   ========================================== */
+.alert-banners-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.alert-banner-card {
+  border-radius: 10px;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+
+.alert-banner-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.alert-banner-left i {
+  font-size: 22px;
+}
+
+.alert-banner-title {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.alert-banner-count {
+  font-size: 28px;
+  font-weight: 800;
+}
+
+/* Severity labels in Alerts table */
+.severity-badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.sev-critical {
+  background-color: #fee2e2;
+  color: #dc2626;
+}
+
+.sev-warning {
+  background-color: #ffedd5;
+  color: #ea580c;
+}
+
+.alert-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.status-active {
+  color: #dc2626;
+}
+
+.alerts-footer-action {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+/* ==========================================
+   11. Performance Panel Summary elements
+   ========================================== */
+.performance-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.summary-panel-item {
+  padding: 16px 20px;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.summary-title {
+  font-size: 11px;
+  color: #64748b;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.summary-val-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.summary-value {
+  font-size: 24px;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.summary-tag {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 4px;
+}
+
+.label-today {
+  background: #f1f5f9;
+  color: #475569;
+}
+
+.label-eff {
+  background: #e0f2fe;
+  color: #0369a1;
+}
+
+.border-left-green {
+  border-left: 4px solid #16a34a;
+}
+
+.summary-desc {
+  font-size: 11px;
+}
+
+/* ==========================================
+   12. Utilities & Helpers
+   ========================================== */
+.font-semibold { font-weight: 600; }
+.font-bold { font-weight: 700; }
+.text-center { text-align: center; }
+.text-secondary { color: #64748b; }
+.text-primary { color: #1a73e8; }
+.text-danger { color: #d32f2f; }
+.text-success { color: #2e7d32; }
+.text-small { font-size: 11px; }
+.flex-center-y { display: flex; align-items: center; }
+.divider {
+  border: none;
+  border-top: 1px solid #edf2f7;
+  margin: 16px 0;
+}
+
+/* Animations */
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ==========================================
+   13. Restored Original Dashboard Styles
+   ========================================== */
+.row {
+  display: flex;
+  gap: 16px;
+}
+
+.row > .card {
+  flex: 1;
+}
+
+/* System Overview */
+.system-overview-row {
+  display: flex;
+  gap: 16px;
+}
+
+.system-overview-card {
+  flex: 3;
+}
+
+.water-production-card {
+  flex: 1;
+  border: 2px solid #1a73e8;
+  text-align: center;
+}
+
+.flow-diagram {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 8px 0 16px;
+}
+
+.flow-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.flow-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  border: 2px solid #e0e0e0;
+  background: #f8f9fa;
+  color: #1a73e8;
+}
+
+.flow-label {
+  font-size: 11px;
+  color: #555;
+  font-weight: 500;
+}
+
+.flow-arrow {
+  color: #aaa;
+  font-size: 14px;
+  margin: 0 -4px;
+}
+
+.system-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background: #e8f5e9;
+  border-radius: 8px;
+  width: fit-content;
+}
+
+.system-status i {
+  color: #2e7d32;
+  font-size: 18px;
+}
+
+.system-status span {
+  font-size: 13px;
+  color: #333;
+}
+
+.system-status strong {
+  color: #2e7d32;
+  font-weight: 700;
+}
+
+/* Water Production */
+.production-label {
+  font-size: 11px;
+  color: #888;
+  margin-top: 8px;
+}
+
+.production-value {
+  font-size: 42px;
+  font-weight: 800;
+  color: #1a73e8;
+}
+
+.production-unit {
+  font-size: 13px;
+  color: #666;
+  font-weight: 500;
+}
+
+.production-divider {
+  border: none;
+  border-top: 1px solid #e0e0e0;
+  margin: 10px 0;
+}
+
+.production-today .production-value {
+  font-size: 32px;
+}
+
+/* Metric Cards */
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.metric-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 12px 8px;
+  background: #f8f9fa;
+  border-radius: 10px;
+  gap: 6px;
+}
+
+.metric-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+}
+
+.metric-icon.blue { background: #e3f2fd; color: #1a73e8; }
+.metric-icon.green { background: #e8f5e9; color: #2e7d32; }
+.metric-icon.orange { background: #fff3e0; color: #e65100; }
+.metric-icon.purple { background: #f3e5f5; color: #7b1fa2; }
+.metric-icon.teal { background: #e0f2f1; color: #00695c; }
+.metric-icon.red { background: #fce4ec; color: #c62828; }
+
+.metric-label {
+  font-size: 10px;
+  color: #888;
+  font-weight: 500;
+}
+
+.metric-value {
+  font-size: 22px;
+  font-weight: 700;
+  color: #1a1a2e;
+}
+
+.metric-unit {
+  font-size: 11px;
+  color: #999;
+  font-weight: 500;
+}
+
+/* Pressure & Flow - 2x2 grid */
+.metrics-grid-2x2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+/* Tank Status */
+.tank-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  padding: 8px 0;
+}
+
+.tank-visual {
+  width: 80px;
+  height: 110px;
+  border: 3px solid #1a73e8;
+  border-radius: 8px 8px 12px 12px;
+  position: relative;
+  overflow: hidden;
+  background: #f0f7ff;
+}
+
+.tank-visual::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50px;
+  height: 6px;
+  background: #1a73e8;
+  border-radius: 0 0 4px 4px;
+}
+
+.tank-water {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 78%;
+  background: linear-gradient(180deg, #42a5f5, #1a73e8);
+  border-radius: 0 0 8px 8px;
+  animation: wave 3s ease-in-out infinite;
+}
+
+.tank-info {
+  text-align: center;
+}
+
+.tank-info .label {
+  font-size: 12px;
+  color: #888;
+}
+
+.tank-info .value {
+  font-size: 36px;
+  font-weight: 800;
+  color: #1a1a2e;
+}
+
+.tank-info .status-label {
+  font-size: 12px;
+  color: #888;
+  margin-top: 8px;
+}
+
+.tank-info .status-value {
+  font-size: 16px;
+  font-weight: 700;
+  color: #2e7d32;
+}
+
+/* Energy Monitoring */
+.energy-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+/* System Alerts */
+.alert-ok {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  background: #e8f5e9;
+  border-radius: 8px;
+  margin-bottom: 8px;
+}
+
+.alert-ok i {
+  color: #2e7d32;
+  font-size: 22px;
+}
+
+.alert-ok span {
+  color: #2e7d32;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.no-alerts {
+  color: #888;
+  font-size: 13px;
+  text-align: center;
+}
+
+/* Quick Actions */
+.actions-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.actions-row {
+  display: flex;
+  gap: 10px;
+}
+
+.action-btn {
+  flex: 1;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: none;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.action-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.action-btn.flush { background: #1a73e8; color: #fff; }
+.action-btn.stop { background: #c62828; color: #fff; }
+.action-btn.uv { background: #fff; color: #333; border: 2px solid #e0e0e0; }
+
+/* Bottom row */
+.bottom-row {
+  display: flex;
+  gap: 16px;
+}
+
+.bottom-row .card:nth-child(1) { flex: 2; }
+.bottom-row .card:nth-child(2) { flex: 2; }
+.bottom-row .card:nth-child(3) { flex: 1.5; }
+
+/* ==========================================
+   9. Ultra-Premium Auth Page
+   ========================================== */
+.premium-auth-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  background: url('/beautiful-bg.png') no-repeat center center;
+  background-size: cover;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  padding: 20px;
+  animation: bgBreathe 20s infinite alternate ease-in-out;
+}
+
+@keyframes bgBreathe {
+  0% { background-size: 100%; }
+  100% { background-size: 110%; }
+}
+
+.premium-auth-container::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(3, 20, 47, 0.4) 0%, rgba(9, 109, 217, 0.2) 100%);
+  z-index: -1;
+}
+
+.premium-auth-card {
+  display: flex;
+  width: 100%;
+  max-width: 1000px;
+  height: 600px;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  animation: authScaleIn 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+}
+
+@keyframes authScaleIn {
+  from { opacity: 0; transform: scale(0.95) translateY(20px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+/* Left Visual Side */
+.auth-visual-side {
+  flex: 1.2;
+  position: relative;
+  background: transparent;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 40px;
+  overflow: hidden;
+}
+
+.auth-visual-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(3, 20, 47, 0.4) 0%, rgba(9, 109, 217, 0.1) 100%);
+  z-index: 1;
+}
+
+.auth-visual-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+  transition: transform 6s ease;
+  mix-blend-mode: overlay;
+  opacity: 0.6;
+}
+
+.premium-auth-card:hover .auth-visual-image {
+  transform: scale(1.05);
+}
+
+.auth-visual-content {
+  position: relative;
+  z-index: 2;
+  animation: fadeIn 1s ease 0.3s both;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.auth-visual-logo {
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+
+.auth-visual-title {
+  font-size: 36px;
+  font-weight: 700;
+  margin-bottom: 16px;
+  line-height: 1.2;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+
+.auth-visual-desc {
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.9);
+  line-height: 1.6;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+}
+
+/* Right Form Side */
+.auth-form-side {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.85);
+  padding: 48px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+}
+
+.auth-form-wrapper {
+  max-width: 360px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.auth-form-header {
+  margin-bottom: 32px;
+}
+
+.auth-form-header h2 {
+  font-size: 28px;
+  font-weight: 800;
+  color: #0f172a;
+  margin-bottom: 8px;
+}
+
+.auth-form-header p {
+  color: #64748b;
+  font-size: 15px;
+}
+
+/* Premium Form Inputs with Floating Labels */
+.premium-form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.premium-input-group {
+  position: relative;
+}
+
+.premium-input {
+  width: 100%;
+  padding: 16px 16px 12px 16px;
+  font-size: 15px;
+  color: #1e293b;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  background: #f8fafc;
+  transition: all 0.2s ease;
+  outline: none;
+}
+
+.premium-floating-label {
+  position: absolute;
+  left: 16px;
+  top: 14px;
+  font-size: 15px;
+  color: #94a3b8;
+  pointer-events: none;
+  transition: all 0.2s ease;
+}
+
+/* Float the label on focus or when input is not empty (using placeholder-shown trick) */
+.premium-input:focus ~ .premium-floating-label,
+.premium-input:not(:placeholder-shown) ~ .premium-floating-label {
+  top: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #1890ff;
+}
+
+.premium-input:focus {
+  background: #ffffff;
+  border-color: #1890ff;
+  box-shadow: 0 4px 12px rgba(24, 144, 255, 0.1);
+  padding-top: 20px;
+  padding-bottom: 8px;
+}
+
+.premium-input:not(:placeholder-shown) {
+  padding-top: 20px;
+  padding-bottom: 8px;
+}
+
+/* Auth Options (Remember Me / Forgot Pass) */
+.auth-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+  margin-top: -8px;
+}
+
+.remember-me {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #64748b;
+  cursor: pointer;
+}
+
+.premium-checkbox {
+  width: 16px;
+  height: 16px;
+  accent-color: #1890ff;
+}
+
+.forgot-password {
+  color: #1890ff;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.forgot-password:hover {
+  text-decoration: underline;
+}
+
+/* Premium Button */
+.premium-btn {
+  background: linear-gradient(135deg, #1890ff, #096dd9);
+  color: #ffffff;
+  border: none;
+  padding: 16px;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(24, 144, 255, 0.3);
+  margin-top: 8px;
+}
+
+.premium-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(24, 144, 255, 0.4);
+}
+
+.premium-btn:active {
+  transform: translateY(0);
+}
+
+.premium-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn-spinner {
+  width: 20px;
+  height: 20px;
+  border: 3px solid rgba(255,255,255,0.3);
+  border-radius: 50%;
+  border-top-color: #fff;
+  animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Footer Toggle */
+.auth-form-footer {
+  margin-top: 32px;
+  text-align: center;
+  font-size: 14px;
+  color: #64748b;
+}
+
+.toggle-auth-mode {
+  background: none;
+  border: none;
+  color: #0f172a;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  margin-left: 6px;
+  position: relative;
+}
+
+.toggle-auth-mode::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: #1890ff;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.3s ease;
+}
+
+.toggle-auth-mode:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+/* Alerts */
+.premium-alert {
+  padding: 12px 16px;
+  border-radius: 10px;
+  margin-bottom: 24px;
+  font-size: 13px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  animation: slideInDown 0.3s ease;
+}
+
+@keyframes slideInDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.premium-alert.error {
+  background: #fef2f2;
+  color: #b91c1c;
+  border-left: 4px solid #ef4444;
+}
+
+.premium-alert.success {
+  background: #f0fdf4;
+  color: #15803d;
+  border-left: 4px solid #22c55e;
+}
+
