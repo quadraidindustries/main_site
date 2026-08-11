@@ -1,16 +1,64 @@
-# React + Vite
+# QUADRAID - Intelligent Water Treatment Dashboard
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+QUADRAID is a next-generation, real-time monitoring and analytics dashboard for modern water treatment facilities. It leverages artificial intelligence and real-time sensor data to optimize water quality, track energy consumption, and provide actionable alerts to operators in an ultra-premium, beautifully designed interface.
 
-Currently, two official plugins are available:
+## 🚀 Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **Advanced Authentication**: Secure login system powered by Supabase with a stunning, AI-generated glassmorphism UI.
+- **Real-Time Dashboard**: Comprehensive system overview with animated charts, sparklines, and live status badges.
+- **Water Quality Monitoring**: Live tracking of pH, TDS, Turbidity, and Conductivity with an intuitive Water Quality Index (WQI) dial.
+- **Performance Analytics**: Track plant efficiency, recovery rates, and membrane health.
+- **Energy Tracking**: Monitor power consumption per cubic meter and overall energy costs.
+- **Smart Alerts**: Actionable insights and system alerts for maintenance and critical errors.
+- **System Settings**: Extensive configuration for system parameters, display preferences, data retention, and automation.
 
-## React Compiler
+## 🛠️ Technology Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **Frontend Framework**: React 19 + Vite
+- **Styling**: Pure CSS with advanced modern techniques (Glassmorphism, CSS Animations, Custom Properties)
+- **Backend/Auth**: Supabase
+- **Icons**: FontAwesome 
 
-## Expanding the ESLint configuration
+## 📦 Getting Started
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### Prerequisites
+- Node.js (v18 or higher)
+- npm or yarn
+- A Supabase Project
+
+### Installation
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/quadraidindustries/main_site.git
+   ```
+
+2. Navigate to the project directory:
+   ```bash
+   cd main_site
+   ```
+
+3. Install dependencies:
+   ```bash
+   npm install
+   ```
+
+4. Configure Environment Variables:
+   Create a `.env.local` file in the root directory and add your Supabase credentials:
+   ```env
+   VITE_SUPABASE_URL=your-supabase-url
+   VITE_SUPABASE_ANON_KEY=your-supabase-anon-key
+   ```
+
+5. Start the development server:
+   ```bash
+   npm run dev
+   ```
+
+## 🎨 Design Philosophy
+
+QUADRAID is built with a focus on "Visual Excellence." It employs deep navy blues, glowing neon cyan accents, and complex radial gradients to create a dark mode aesthetic that feels both professional and futuristic. Subtle micro-animations, floating labels, and frosted glass overlays provide a satisfying and immersive user experience.
+
+## 📄 License
+
+Proprietary Software - Quadraid Industries © 2025. All rights reserved.
