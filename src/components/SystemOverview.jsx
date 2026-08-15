@@ -7,7 +7,11 @@ const flowSteps = [
   { icon: 'fas fa-truck', label: 'Distribution' },
 ]
 
-export default function SystemOverview() {
+export default function SystemOverview({ readings }) {
+  const statusText = (readings?.system_status || 'RUNNING').toUpperCase()
+  const currentRate = readings?.flow_rate_l_hr ?? 1250
+  const todayProduction = readings?.today_production_l ?? 18600
+
   return (
     <div className="system-overview-row">
       <div className="card system-overview-card" id="system-overview">
@@ -28,9 +32,9 @@ export default function SystemOverview() {
           ))}
         </div>
         <div className="system-status">
-          <i className="fas fa-check-circle"></i>
+          <i className={`fas ${statusText === 'RUNNING' ? 'fa-check-circle success-text' : 'fa-triangle-exclamation warning-text'}`}></i>
           <span>
-            System Status: <strong>RUNNING</strong>
+            System Status: <strong>{statusText}</strong>
           </span>
         </div>
       </div>
@@ -40,12 +44,12 @@ export default function SystemOverview() {
           Water Production
         </div>
         <div className="production-label">Current Rate</div>
-        <div className="production-value">1250</div>
+        <div className="production-value">{currentRate}</div>
         <div className="production-unit">L / HR</div>
         <hr className="production-divider" />
         <div className="production-today">
           <div className="production-label">Today's Production</div>
-          <div className="production-value">18,600</div>
+          <div className="production-value">{Number(todayProduction).toLocaleString()}</div>
           <div className="production-unit">L</div>
         </div>
       </div>

@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
+import { formatTelemetryTimestamp } from '../lib/formatters'
 
-export default function SettingsPanel() {
+export default function SettingsPanel({ readings }) {
+  const { time: timeStr, date: dateStr } = formatTelemetryTimestamp(readings?.created_at)
   const [activeTab, setActiveTab] = useState('system')
 
   // Form states
@@ -46,8 +48,8 @@ export default function SettingsPanel() {
           </span>
         </div>
         <div className="panel-header-right">
-          <span className="header-time"><i className="far fa-clock"></i> 12:30 PM</span>
-          <span className="header-date"><i className="far fa-calendar-alt"></i> 26 May 2025</span>
+          <span className="header-time"><i className="far fa-clock"></i> {timeStr}</span>
+          <span className="header-date"><i className="far fa-calendar-alt"></i> {dateStr}</span>
         </div>
       </div>
 

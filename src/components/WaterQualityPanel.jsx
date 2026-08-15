@@ -1,25 +1,58 @@
 import React from 'react'
+import { formatTelemetryTimestamp } from '../lib/formatters'
 
-export default function WaterQualityPanel() {
+export default function WaterQualityPanel({ readings }) {
+  const { time: timeStr, date: dateStr } = formatTelemetryTimestamp(readings?.created_at)
+  const phVal = readings?.ph ?? 7.24
+  const tdsVal = readings?.tds_output ?? 28
+  const turbVal = readings?.turbidity ?? 0.68
+  const tempVal = readings?.temperature ?? 25.4
+  const condVal = readings?.conductivity ?? 693
+  const orpVal = readings?.orp ?? 162
+  const doVal = readings?.dissolved_oxygen ?? 6.35
+  const fcVal = readings?.free_chlorine ?? 1.45
+
+  // Dynamically calculate WQI based on deviation from optimal values
+  let wqi = 100
+  if (tdsVal > 30) wqi -= (tdsVal - 30) * 1.5
+  if (phVal < 7.0 || phVal > 7.4) wqi -= Math.abs(phVal - 7.2) * 25
+  if (turbVal > 0.5) wqi -= (turbVal - 0.5) * 12
+  wqi = Math.max(45, Math.min(100, Math.round(wqi)))
+
+  let wqiGrade = 'Excellent'
+  let wqiColorClass = 'success-bg'
+  let wqiText = 'All parameters are in acceptable range.'
+
+  if (wqi < 90) {
+    wqiGrade = 'Good'
+    wqiColorClass = 'warning-bg'
+    wqiText = 'Slight deviations detected in output parameters.'
+  }
+  if (wqi < 75) {
+    wqiGrade = 'Fair'
+    wqiColorClass = 'warning-bg'
+    wqiText = 'Water quality is acceptable but needs attention.'
+  }
+
   const params = [
-    { name: 'pH', value: '7.24', unit: '', status: 'Good', statusClass: 'good-text', color: '#7b1fa2', bg: '#f3e5f5', icon: 'fas fa-flask' },
-    { name: 'TDS', value: '452', unit: 'mg/L', status: 'Good', statusClass: 'good-text', color: '#1a73e8', bg: '#e3f2fd', icon: 'fas fa-glass-water' },
-    { name: 'Turbidity', value: '0.68', unit: 'NTU', status: 'Good', statusClass: 'good-text', color: '#00695c', bg: '#e0f2f1', icon: 'fas fa-water' },
-    { name: 'Temperature', value: '25.4', unit: '°C', status: 'Good', statusClass: 'good-text', color: '#c62828', bg: '#fce4ec', icon: 'fas fa-thermometer-half' },
-    { name: 'Conductivity', value: '693', unit: 'µS/cm', status: 'Good', statusClass: 'good-text', color: '#e65100', bg: '#fff3e0', icon: 'fas fa-bolt' },
-    { name: 'ORP', value: '162', unit: 'mV', status: 'Good', statusClass: 'good-text', color: '#d84315', bg: '#fbe9e7', icon: 'fas fa-bolt-lightning' },
-    { name: 'DO', value: '6.35', unit: 'mg/L', status: 'Good', statusClass: 'good-text', color: '#2e7d32', bg: '#e8f5e9', icon: 'fas fa-circle-nodes' },
-    { name: 'Free Chlorine', value: '1.45', unit: 'mg/L', status: 'Good', statusClass: 'good-text', color: '#00838f', bg: '#e0f7fa', icon: 'fas fa-shield-halved' }
+    { name: 'pH', value: phVal, unit: '', status: 'Good', statusClass: 'good-text', color: '#7b1fa2', bg: '#f3e5f5', icon: 'fas fa-flask' },
+    { name: 'TDS', value: tdsVal, unit: 'mg/L', status: 'Good', statusClass: 'good-text', color: '#1a73e8', bg: '#e3f2fd', icon: 'fas fa-glass-water' },
+    { name: 'Turbidity', value: turbVal, unit: 'NTU', status: 'Good', statusClass: 'good-text', color: '#00695c', bg: '#e0f2f1', icon: 'fas fa-water' },
+    { name: 'Temperature', value: tempVal, unit: '°C', status: 'Good', statusClass: 'good-text', color: '#c62828', bg: '#fce4ec', icon: 'fas fa-thermometer-half' },
+    { name: 'Conductivity', value: condVal, unit: 'µS/cm', status: 'Good', statusClass: 'good-text', color: '#e65100', bg: '#fff3e0', icon: 'fas fa-bolt' },
+    { name: 'ORP', value: orpVal, unit: 'mV', status: 'Good', statusClass: 'good-text', color: '#d84315', bg: '#fbe9e7', icon: 'fas fa-bolt-lightning' },
+    { name: 'DO', value: doVal, unit: 'mg/L', status: 'Good', statusClass: 'good-text', color: '#2e7d32', bg: '#e8f5e9', icon: 'fas fa-circle-nodes' },
+    { name: 'Free Chlorine', value: fcVal, unit: 'mg/L', status: 'Good', statusClass: 'good-text', color: '#00838f', bg: '#e0f7fa', icon: 'fas fa-shield-halved' }
   ]
 
   const tableData = [
-    { param: 'pH', val: '7.24', unit: '--', status: 'Good', trend: 'M10,12 Q20,5 30,15 T50,8' },
-    { param: 'TDS', val: '452', unit: 'mg/L', status: 'Good', trend: 'M10,15 Q20,18 30,10 T50,5' },
-    { param: 'Turbidity', val: '0.68', unit: 'NTU', status: 'Good', trend: 'M10,8 Q20,15 30,5 T50,12' },
-    { param: 'Conductivity', val: '693', unit: 'µS/cm', status: 'Good', trend: 'M10,12 Q20,10 30,14 T50,9' },
-    { param: 'Temperature', val: '25.4', unit: '°C', status: 'Good', trend: 'M10,10 Q20,10 30,10 T50,10' },
-    { param: 'ORP', val: '162', unit: 'mV', status: 'Good', trend: 'M10,14 Q20,8 30,16 T50,6' },
-    { param: 'DO', val: '6.35', unit: 'mg/L', status: 'Good', trend: 'M10,6 Q20,12 30,8 T50,14' }
+    { param: 'pH', val: phVal, unit: '--', status: 'Good', trend: 'M10,12 Q20,5 30,15 T50,8' },
+    { param: 'TDS', val: tdsVal, unit: 'mg/L', status: 'Good', trend: 'M10,15 Q20,18 30,10 T50,5' },
+    { param: 'Turbidity', val: turbVal, unit: 'NTU', status: 'Good', trend: 'M10,8 Q20,15 30,5 T50,12' },
+    { param: 'Conductivity', val: condVal, unit: 'µS/cm', status: 'Good', trend: 'M10,12 Q20,10 30,14 T50,9' },
+    { param: 'Temperature', val: tempVal, unit: '°C', status: 'Good', trend: 'M10,10 Q20,10 30,10 T50,10' },
+    { param: 'ORP', val: orpVal, unit: 'mV', status: 'Good', trend: 'M10,14 Q20,8 30,16 T50,6' },
+    { param: 'DO', val: doVal, unit: 'mg/L', status: 'Good', trend: 'M10,6 Q20,12 30,8 T50,14' }
   ]
 
   return (
@@ -33,8 +66,8 @@ export default function WaterQualityPanel() {
           </span>
         </div>
         <div className="panel-header-right">
-          <span className="header-time"><i className="far fa-clock"></i> 12:30 PM</span>
-          <span className="header-date"><i className="far fa-calendar-alt"></i> 26 May 2025</span>
+          <span className="header-time"><i className="far fa-clock"></i> {timeStr}</span>
+          <span className="header-date"><i className="far fa-calendar-alt"></i> {dateStr}</span>
         </div>
       </div>
 
@@ -113,7 +146,7 @@ export default function WaterQualityPanel() {
                     stroke="url(#wqiGradient)"
                     strokeWidth="8"
                     strokeDasharray="263.89"
-                    strokeDashoffset={263.89 - (263.89 * 92) / 100}
+                    strokeDashoffset={263.89 - (263.89 * wqi) / 100}
                     strokeLinecap="round"
                     transform="rotate(-90 50 50)"
                   />
@@ -126,8 +159,8 @@ export default function WaterQualityPanel() {
                   </defs>
                 </svg>
                 <div className="wqi-score-overlay">
-                  <span className="wqi-score">92</span>
-                  <span className="wqi-grade">Excellent</span>
+                  <span className="wqi-score">{wqi}</span>
+                  <span className="wqi-grade">{wqiGrade}</span>
                   <span className="wqi-label">out of 100</span>
                 </div>
               </div>
@@ -137,12 +170,12 @@ export default function WaterQualityPanel() {
 
             <div className="wqi-summary">
               <h4>Overall Status</h4>
-              <div className="wqi-status-box success-bg">
+              <div className={`wqi-status-box ${wqiColorClass}`}>
                 <i className="fas fa-check-circle success-text"></i>
-                <p>All parameters are in acceptable range.</p>
+                <p>{wqiText}</p>
               </div>
               <p className="wqi-details text-secondary">
-                The water meets all regulatory standards. Membrane filtering is highly efficient with optimal pH and TDS levels.
+                The water meets regulatory standards. Membrane filtering is highly efficient with optimal pH and TDS levels.
               </p>
             </div>
           </div>

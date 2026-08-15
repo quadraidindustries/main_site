@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="WaterPurifierTestSuite" verbose="1">
+    <test name="EndToEndEcosystemTests">
+        <classes>
+            <class name="com.quadraid.tests.AuthTest"/>
+            <class name="com.quadraid.tests.DashboardTelemetryTest"/>
+            <class name="com.quadraid.tests.WaterQualityPanelTest"/>
+            <class name="com.quadraid.tests.PerformancePanelTest"/>
+            <class name="com.quadraid.tests.EnergyPanelTest"/>
+            <class name="com.quadraid.tests.HistoryPanelTest"/>
+            <class name="com.quadraid.tests.QuickActionsTest"/>
+        </classes>
+    </test>
+</suite>

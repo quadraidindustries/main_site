@@ -1824,3 +1824,199 @@ input:checked + .slider:before {
   border-left: 4px solid #22c55e;
 }
 
+/* ==========================================
+   14. Mobile Responsiveness (Phones)
+   ========================================== */
+@media (max-width: 768px) {
+  /* Main Layout */
+  .main-layout {
+    flex-direction: column;
+  }
+
+  .content {
+    padding-bottom: 80px; /* Space for bottom nav */
+  }
+
+  .sidebar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 70px;
+    flex-direction: row;
+    padding: 0;
+    border-right: none;
+    border-top: 1px solid #0f2343;
+    z-index: 100;
+  }
+
+  .sidebar-brand {
+    display: none; /* Hide brand on mobile */
+  }
+
+  .nav-items-container {
+    flex-direction: row;
+    overflow-x: auto;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 0 8px;
+    width: 100%;
+  }
+
+  /* Scrollbar hiding for horizontal mobile nav */
+  .nav-items-container::-webkit-scrollbar {
+    display: none;
+  }
+  .nav-items-container {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+
+  .nav-item {
+    flex-direction: column;
+    gap: 4px;
+    padding: 8px 16px;
+    font-size: 11px;
+    justify-content: center;
+    flex-shrink: 0;
+    text-align: center;
+  }
+
+  .nav-item i {
+    font-size: 20px;
+  }
+  
+  .sidebar-footer {
+    display: flex;
+    padding: 0 16px;
+    border-top: none;
+    border-left: 1px solid rgba(255, 255, 255, 0.1);
+    align-items: center;
+  }
+  
+  .sidebar-footer .nav-item {
+    margin-bottom: 0 !important;
+  }
+  
+  .sidebar-footer .footer-label,
+  .sidebar-footer .footer-time {
+    display: none;
+  }
+  
+  .panel-container {
+    padding: 16px;
+    gap: 16px;
+  }
+  
+  .panel-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  
+  .panel-header-right {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  /* Two Column Layout */
+  .two-columns-layout {
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  .left-main-col, .right-sidebar-col {
+    flex: auto;
+  }
+
+  /* Dashboard Grids */
+  .dashboard-grid-3col {
+    grid-template-columns: 1fr;
+  }
+  
+  .metrics-grid, .metrics-grid-2x2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .system-overview-row {
+    flex-direction: column;
+  }
+  
+  .bottom-row {
+    flex-direction: column;
+  }
+
+  /* Parameter Cards Grid */
+  .parameter-cards-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* Performance Grid */
+  .performance-cards-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .performance-summary-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* Energy Grid */
+  .energy-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* Alert Banners Grid */
+  .alert-banners-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* Auth Page */
+  .premium-auth-card {
+    flex-direction: column;
+    height: auto;
+    max-height: 95vh;
+    overflow-y: auto;
+  }
+
+  .auth-visual-side {
+    padding: 24px;
+    flex: none;
+    height: 180px;
+  }
+
+  .auth-visual-logo {
+    font-size: 16px;
+    margin-bottom: 8px;
+  }
+
+  .auth-visual-title {
+    font-size: 20px;
+    margin-bottom: 4px;
+  }
+  
+  .auth-visual-desc {
+    display: none;
+  }
+
+  .auth-form-side {
+    padding: 24px;
+  }
+
+  /* Settings Row */
+  .form-group-row-2col {
+    grid-template-columns: 1fr;
+  }
+
+  /* Miscellaneous */
+  .chart-controls {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  
+  .chart-legends {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+}

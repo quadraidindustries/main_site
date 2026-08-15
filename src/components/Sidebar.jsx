@@ -1,6 +1,8 @@
 import React from 'react'
 import { supabase } from '../lib/supabaseClient'
 
+import { formatTelemetryTimestamp } from '../lib/formatters'
+
 const navItems = [
   { id: 'nav-dashboard', icon: 'fas fa-home', label: 'Dashboard' },
   { id: 'nav-water-quality', icon: 'fas fa-tint', label: 'Water Quality' },
@@ -11,10 +13,12 @@ const navItems = [
   { id: 'nav-settings', icon: 'fas fa-cog', label: 'Settings' },
 ]
 
-export default function Sidebar({ activeId, setActiveId }) {
+export default function Sidebar({ activeId, setActiveId, readings }) {
   const handleSignOut = async () => {
     await supabase.auth.signOut()
   }
+
+  const { full: timestampStr } = formatTelemetryTimestamp(readings?.created_at)
 
   return (
     <nav className="sidebar" id="main-nav">
@@ -47,7 +51,7 @@ export default function Sidebar({ activeId, setActiveId }) {
           <i className="fas fa-sign-out-alt"></i> Sign Out
         </div>
         <div className="footer-label">Last Updated</div>
-        <div className="footer-time">26 May 2025 12:30 PM</div>
+        <div className="footer-time">{timestampStr}</div>
       </div>
     </nav>
   )

@@ -1,27 +1,76 @@
 import React, { useState } from 'react'
+import { formatTelemetryTimestamp } from '../lib/formatters'
 
-export default function HistoryPanel() {
+function buildSvgPath(dataArray, minVal, maxVal, width = 600, height = 120, startX = 50, startY = 35) {
+  if (!dataArray || dataArray.length < 2) return `M 50 100 L 650 100`
+  const range = maxVal - minVal || 1
+  const stepX = width / (dataArray.length - 1)
+  return dataArray.map((val, i) => {
+    const x = startX + i * stepX
+    const norm = Math.max(0, Math.min(1, (val - minVal) / range))
+    const y = startY + (1 - norm) * height
+    return `${i === 0 ? 'M' : 'L'} ${x.toFixed(1)} ${y.toFixed(1)}`
+  }).join(' ')
+}
+
+export default function HistoryPanel({ readings, history = [] }) {
+  const { time: timeStr, date: dateStr } = formatTelemetryTimestamp(readings?.created_at)
   const [param, setParam] = useState('all')
-  const [dateRange, setDateRange] = useState('18-25')
+  const [timeFilter, setTimeFilter] = useState('live')
+
+  // Chronological order (oldest to newest)
+  const chronological = history.length > 0 ? [...history].reverse() : [readings, readings]
+
+  const phs = chronological.map(r => r?.ph ?? 7.2)
+  const tdsOutputs = chronological.map(r => r?.tds_output ?? 28)
+  const turbidities = chronological.map(r => r?.turbidity ?? 0.6)
+  const conductivities = chronological.map(r => r?.conductivity ?? 650)
+
+  const calcStats = (arr, decimals = 2) => {
+    if (!arr || arr.length === 0) return { min: '0', max: '0', avg: '0' }
+    const min = Math.min(...arr).toFixed(decimals)
+    const max = Math.max(...arr).toFixed(decimals)
+    const avg = (arr.reduce((acc, v) => acc + v, 0) / arr.length).toFixed(decimals)
+    return { min, max, avg }
+  }
+
+  const phStats = calcStats(phs, 2)
+  const tdsStats = calcStats(tdsOutputs, 0)
+  const turbStats = calcStats(turbidities, 2)
+  const condStats = calcStats(conductivities, 0)
 
   const summaryData = [
-    { param: 'pH', min: '6.82', max: '7.64', avg: '7.21', unit: '--' },
-    { param: 'TDS', min: '312', max: '545', avg: '423', unit: 'mg/L' },
-    { param: 'Turbidity', min: '0.21', max: '1.24', avg: '0.63', unit: 'NTU' },
-    { param: 'Conductivity', min: '498', max: '812', avg: '645', unit: 'µS/cm' }
+    { param: 'pH', ...phStats, unit: '--' },
+    { param: 'TDS (Output)', ...tdsStats, unit: 'ppm' },
+    { param: 'Turbidity', ...turbStats, unit: 'NTU' },
+    { param: 'Conductivity', ...condStats, unit: 'µS/cm' }
   ]
 
-  // Multi-line SVG paths for Historical Trends
-  // pH (green), TDS (blue), Turbidity (purple), Conductivity (orange)
-  const pathPh = "M 50 120 Q 130 110 210 125 T 370 115 Q 450 130 530 118 T 650 122"
-  const pathTds = "M 50 60 Q 130 80 210 50 T 370 70 Q 450 45 530 65 T 650 55"
-  const pathTurb = "M 50 150 Q 130 145 210 160 T 370 148 Q 450 155 530 142 T 650 150"
-  const pathCond = "M 50 90 Q 130 100 210 85 T 370 95 Q 450 80 530 92 T 650 88"
+  // Dynamic SVG paths calculated from real telemetry
+  const pathPh = buildSvgPath(phs, 6.0, 8.5)
+  const pathTds = buildSvgPath(tdsOutputs, 0, 100)
+  const pathTurb = buildSvgPath(turbidities, 0, 3.0)
+  const pathCond = buildSvgPath(conductivities, 400, 900)
 
-  const dates = ['18 May', '19 May', '20 May', '21 May', '22 May', '23 May', '24 May', '25 May']
+  // Real timestamps from history
+  const timeLabels = chronological.length > 0
+    ? chronological.filter((_, i) => i % Math.max(1, Math.floor(chronological.length / 6)) === 0).slice(0, 7).map(r => formatTelemetryTimestamp(r.created_at).time)
+    : ['T-30m', 'T-25m', 'T-20m', 'T-15m', 'T-10m', 'T-5m', 'Now']
 
   const handleExport = () => {
-    alert('Exporting data as CSV...')
+    if (!history || history.length === 0) {
+      alert('No history records available to export yet.')
+      return
+    }
+    const headers = Object.keys(history[0]).join(',')
+    const rows = history.map(row => Object.values(row).join(',')).join('\n')
+    const csvContent = 'data:text/csv;charset=utf-8,' + encodeURIComponent(headers + '\n' + rows)
+    const link = document.createElement('a')
+    link.setAttribute('href', csvContent)
+    link.setAttribute('download', `water_purifier_telemetry_${Date.now()}.csv`)
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
   }
 
   return (
@@ -29,14 +78,14 @@ export default function HistoryPanel() {
       <div className="panel-header">
         <div className="panel-header-left">
           <i className="fas fa-history panel-header-icon blue-text"></i>
-          <h2>History</h2>
+          <h2>Telemetry History & Analytics</h2>
           <span className="live-status-badge">
-            <span className="live-status-dot"></span> Live
+            <span className="live-status-dot"></span> Auto Streaming
           </span>
         </div>
         <div className="panel-header-right">
-          <span className="header-time"><i className="far fa-clock"></i> 12:30 PM</span>
-          <span className="header-date"><i className="far fa-calendar-alt"></i> 26 May 2025</span>
+          <span className="header-time"><i className="far fa-clock"></i> {timeStr}</span>
+          <span className="header-date"><i className="far fa-calendar-alt"></i> {dateStr}</span>
         </div>
       </div>
 
@@ -53,27 +102,27 @@ export default function HistoryPanel() {
               >
                 <option value="all">All Parameters</option>
                 <option value="ph">pH</option>
-                <option value="tds">TDS</option>
+                <option value="tds">TDS Output</option>
                 <option value="turbidity">Turbidity</option>
                 <option value="conductivity">Conductivity</option>
               </select>
             </div>
 
             <div className="filter-input-item">
-              <label className="filter-label">Date Range</label>
+              <label className="filter-label">Data Window</label>
               <select 
                 className="custom-select" 
-                value={dateRange} 
-                onChange={(e) => setDateRange(e.target.value)}
+                value={timeFilter} 
+                onChange={(e) => setTimeFilter(e.target.value)}
               >
-                <option value="18-25">18 May 2025 - 25 May 2025</option>
-                <option value="11-18">11 May 2025 - 18 May 2025</option>
-                <option value="04-11">04 May 2025 - 11 May 2025</option>
+                <option value="live">Live Streaming Buffer ({history.length} cycles)</option>
+                <option value="24h">Last 24 Hours</option>
+                <option value="7d">Last 7 Days</option>
               </select>
             </div>
 
             <button className="btn btn-primary btn-export" onClick={handleExport}>
-              <i className="fas fa-file-export"></i> Export Data
+              <i className="fas fa-file-export"></i> Export CSV
             </button>
           </div>
         </div>
@@ -81,7 +130,7 @@ export default function HistoryPanel() {
         {/* Chart: Historical Trends */}
         <div className="card chart-card">
           <div className="chart-header">
-            <h3 className="card-title">Historical Trends</h3>
+            <h3 className="card-title">Real-Time Sensor Trends</h3>
             <div className="chart-legends multiline-legends">
               <div className="legend-item">
                 <span className="legend-line line-ph"></span>
@@ -89,7 +138,7 @@ export default function HistoryPanel() {
               </div>
               <div className="legend-item">
                 <span className="legend-line line-tds"></span>
-                <span>TDS (mg/L)</span>
+                <span>TDS (ppm)</span>
               </div>
               <div className="legend-item">
                 <span className="legend-line line-turb"></span>
@@ -103,27 +152,19 @@ export default function HistoryPanel() {
           </div>
 
           <div className="svg-chart-container">
-            <svg viewBox="0 0 700 200" width="100%" height="100%" className="line-chart-svg">
-              {/* Horizontal grid lines */}
-              <line x1="50" y1="30" x2="650" y2="30" stroke="#f0f2f5" strokeWidth="1" />
-              <line x1="50" y1="60" x2="650" y2="60" stroke="#f0f2f5" strokeWidth="1" />
-              <line x1="50" y1="90" x2="650" y2="90" stroke="#f0f2f5" strokeWidth="1" />
-              <line x1="50" y1="120" x2="650" y2="120" stroke="#f0f2f5" strokeWidth="1" />
-              <line x1="50" y1="150" x2="650" y2="150" stroke="#f0f2f5" strokeWidth="1" />
+            <svg viewBox="0 0 700 190" width="100%" height="100%" className="line-chart-svg">
+              {/* Horizontal Grid */}
+              <line x1="50" y1="35" x2="650" y2="35" stroke="#f0f2f5" strokeWidth="1" />
+              <line x1="50" y1="75" x2="650" y2="75" stroke="#f0f2f5" strokeWidth="1" />
+              <line x1="50" y1="115" x2="650" y2="115" stroke="#f0f2f5" strokeWidth="1" />
+              <line x1="50" y1="155" x2="650" y2="155" stroke="#f0f2f5" strokeWidth="1" />
 
-              {/* Y Axis Labels */}
-              <text x="30" y="34" className="chart-axis-label">1000</text>
-              <text x="30" y="64" className="chart-axis-label">750</text>
-              <text x="30" y="94" className="chart-axis-label">500</text>
-              <text x="30" y="124" className="chart-axis-label">250</text>
-              <text x="30" y="154" className="chart-axis-label">0</text>
-
-              {/* Grid Vertical Lines */}
-              {[50, 135, 220, 305, 390, 475, 560, 650].map((xVal, idx) => (
-                <line key={idx} x1={xVal} y1="30" x2={xVal} y2="165" stroke="#f0f2f5" strokeWidth="1" strokeDasharray="3,3" />
+              {/* Vertical Lines */}
+              {[50, 150, 250, 350, 450, 550, 650].map((xVal, idx) => (
+                <line key={idx} x1={xVal} y1="30" x2={xVal} y2="160" stroke="#f0f2f5" strokeWidth="1" strokeDasharray="3,3" />
               ))}
 
-              {/* Render lines depending on selector */}
+              {/* Live SVG Curves from Supabase */}
               {(param === 'all' || param === 'ph') && (
                 <path d={pathPh} fill="none" stroke="#2ecc71" strokeWidth="2.5" strokeLinecap="round" />
               )}
@@ -137,13 +178,12 @@ export default function HistoryPanel() {
                 <path d={pathTurb} fill="none" stroke="#9b59b6" strokeWidth="2.5" strokeLinecap="round" />
               )}
 
-              {/* X Axis line */}
-              <line x1="50" y1="165" x2="650" y2="165" stroke="#ccc" strokeWidth="1.5" />
+              <line x1="50" y1="160" x2="650" y2="160" stroke="#ccc" strokeWidth="1.5" />
             </svg>
 
-            {/* X Labels */}
+            {/* Live X Labels */}
             <div className="chart-x-labels-row">
-              {dates.map((d, index) => (
+              {timeLabels.map((d, index) => (
                 <div key={index} className="x-label-item">{d}</div>
               ))}
             </div>
@@ -152,7 +192,7 @@ export default function HistoryPanel() {
 
         {/* Data Summary Table */}
         <div className="card data-summary-card">
-          <h3 className="card-title">Data Summary</h3>
+          <h3 className="card-title">Automated Telemetry Summary</h3>
           <table className="custom-table select-none">
             <thead>
               <tr>
