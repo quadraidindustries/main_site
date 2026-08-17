@@ -16,18 +16,24 @@ export default function QuickActions({ readings }) {
     try {
       setLoading(true)
 
-      // Broadcast command to simulator / physical machine
+      // 1. Broadcast command over Supabase realtime channel
       const channel = supabase.channel('system-commands')
-      await channel.subscribe(async (status) => {
+      channel.subscribe(async (status) => {
         if (status === 'SUBSCRIBED') {
           await channel.send({
             type: 'broadcast',
             event: 'command',
             payload: { action }
           })
-          supabase.removeChannel(channel)
         }
       })
+
+      // 2. Log alert in Supabase so simulator and dashboard stay in sync
+      await supabase.from('alerts').insert([{
+        message: action === 'STOP' ? 'System Stop command issued from Dashboard' : 'System Start command issued from Dashboard',
+        severity: action === 'STOP' ? 'Warning' : 'Notice',
+        status: 'Active'
+      }])
 
     } catch (err) {
       console.error('Error sending system command:', err)
