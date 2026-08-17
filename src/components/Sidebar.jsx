@@ -43,13 +43,6 @@ export default function Sidebar({ activeId, setActiveId, readings }) {
       </div>
 
       <div className="sidebar-footer">
-        <div 
-          className="nav-item" 
-          onClick={handleSignOut}
-          style={{ marginBottom: '16px', color: '#f87171' }}
-        >
-          <i className="fas fa-sign-out-alt"></i> Sign Out
-        </div>
         <div className="footer-label">Last Updated</div>
         <div className="footer-time">{timestampStr}</div>
       </div>
