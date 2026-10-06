@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import Logo from './Logo'
 
 export default function Header() {
   const [date, setDate] = useState('')
@@ -26,7 +27,9 @@ export default function Header() {
     <header className="header" id="main-header">
       <div className="header-left">
         <div className="logo">
-          <div className="logo-icon">QI</div>
+          <div className="logo-icon-container">
+            <Logo size={20} color="#ffffff" />
+          </div>
           <span className="logo-text">QUADRAID</span>
         </div>
       </div>

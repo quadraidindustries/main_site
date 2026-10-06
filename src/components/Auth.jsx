@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { supabase } from '../lib/supabaseClient'
+import Logo from './Logo'
 
 export default function Auth({ onDemoLogin }) {
   const [isSignUp, setIsSignUp] = useState(false)
@@ -58,7 +59,7 @@ export default function Auth({ onDemoLogin }) {
           
           <div className="auth-visual-content">
             <div className="auth-visual-logo">
-              <i className="fa-solid fa-cubes"></i> QUADRAID
+              <Logo size={28} color="#ffffff" /> QUADRAID
             </div>
             <h1 className="auth-visual-title">
               {isSignUp ? 'Join Quadraid.' : 'Welcome Back.'}

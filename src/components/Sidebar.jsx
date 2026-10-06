@@ -3,6 +3,8 @@ import { supabase } from '../lib/supabaseClient'
 
 import { formatTelemetryTimestamp } from '../lib/formatters'
 
+import Logo from './Logo'
+
 const navItems = [
   { id: 'nav-dashboard', icon: 'fas fa-home', label: 'Dashboard' },
   { id: 'nav-water-quality', icon: 'fas fa-tint', label: 'Water Quality' },
@@ -24,7 +26,7 @@ export default function Sidebar({ activeId, setActiveId, readings }) {
     <nav className="sidebar" id="main-nav">
       <div className="sidebar-brand">
         <div className="logo-icon-container">
-          <i className="fas fa-cubes logo-icon-quad"></i>
+          <Logo size={22} color="#ffffff" />
         </div>
         <span className="logo-text-quad">QUADRAID</span>
       </div>
